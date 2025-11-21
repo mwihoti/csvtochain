@@ -10,8 +10,6 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)]()
 
-**Project Score**: 94/100 | **Implementation**: 3/3 Phases Complete | **Win Probability**: 85-90%
-
 ---
 
 ## � Hackathon Submission
@@ -20,7 +18,6 @@
 
 **📜 Certificate**: [View Certificate](https://drive.google.com/file/d/1ycaB38-7fKyjrsPfM-sXnKUjtFMWuQI7/view?usp=sharing)
 
-**📧 Collaborator Access**: Hackathon@hashgraph-association.com (added as collaborator)
 
 ---
 
@@ -87,7 +84,7 @@ CSV Upload → Validation → Hashing → NFT Minting → HCS Verification → H
 
 ### 🪙 Implemented Features
 
-#### ✅ **CSV Tokenization Engine** (Phase 1 & 2)
+#### ✅ **CSV Tokenization Engine** 
 - **Drag & Drop Upload**: Modern file interface with progress tracking
 - **Smart Validation**: Multi-layer checks (size, structure, quality)
 - **Hash Generation**: SHA-256 cryptographic hashing
@@ -96,7 +93,7 @@ CSV Upload → Validation → Hashing → NFT Minting → HCS Verification → H
 - **Metadata Encoding**: Efficient 100-byte on-chain storage
 - **Error Handling**: Comprehensive retry logic and user feedback
 
-#### ✅ **Token Gallery** (Phase 3)
+#### ✅ **Token Gallery** 
 - **Responsive Grid**: 1-3 column adaptive layout
 - **Beautiful Cards**: Gradient designs with dataset metadata
 - **HashScan Integration**: One-click blockchain verification
@@ -118,6 +115,16 @@ CSV Upload → Validation → Hashing → NFT Minting → HCS Verification → H
 - **Topic Creator**: Automated HCS topic setup
 - **Contract Deployer**: Smart contract deployment (coming soon)
 - **Demo Mode**: Complete workflow testing
+
+#### ✅ **Dual Wallet Integration** 🔐
+- **HashPack Support**: Native Hedera wallet integration
+- **MetaMask Support**: Popular Web3 wallet with Hedera compatibility
+- **Wallet Selector**: Beautiful UI for choosing preferred wallet
+- **Session Persistence**: Remember wallet on page reload
+- **Treasury Account**: Centralized transaction management
+- **Balance Display**: Live HBAR balance from Mirror Node
+- **Error Handling**: Graceful error messages and retry logic
+- **Dark Mode**: Full theme support for wallet UI
 
 ---
 
@@ -165,11 +172,17 @@ HEDERA_ACCOUNT_ID=0.0.YOUR_ACCOUNT_ID
 HEDERA_PRIVATE_KEY=302e020100300506032b657004220420...YOUR_PRIVATE_KEY
 HEDERA_NETWORK=testnet
 
+# Recommended: Treasury account for CV transactions
+NEXT_PUBLIC_TREASURY_ACCOUNT=0.0.YOUR_ACCOUNT_ID
+
 # Optional: Create with `pnpm create:topic`
 HCS_TOPIC_ID=0.0.YOUR_TOPIC_ID
 
-# Optional: Deploy with `pnpm deploy:contract` (future)
+# Optional: Deploy with `pnpm deploy:contract`
 SMART_CONTRACT_ID=0.0.YOUR_CONTRACT_ID
+
+# Public Hedera network
+NEXT_PUBLIC_HEDERA_NETWORK=testnet
 ```
 
 **Important Security Notes:**

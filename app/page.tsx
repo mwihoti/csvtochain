@@ -4,13 +4,14 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { AppContext, useApp } from '@/lib/app-context';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { format, subDays, startOfDay, endOfDay, isWithinInterval } from 'date-fns';
-import { Search, Loader2, AlertCircle, Download, Moon, Sun, Share2, CheckCircle, XCircle, Filter, Calendar, TrendingUp, Users, DollarSign, Activity, Database } from 'lucide-react';
+import { Search, Loader2, AlertCircle, Download, Moon, Sun, Share2, CheckCircle, XCircle, Filter, Calendar, TrendingUp, Users, DollarSign, Activity, Database, ShoppingCart } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { MirrorNodeAPI } from '@/lib/api/mirror-node';
 import { HederaSDK } from '@/lib/services/hedera-sdk';
 import { CategorizationEngine } from '@/lib/services/categorization';
 import { Transaction, Category, AnalyticsReport } from '@/types';
 import Link from 'next/link';
+import WalletSelector from '@/components/WalletSelector';
 
 // Context
 // context is provided by `lib/app-context.tsx` and imported above
@@ -893,12 +894,34 @@ export default function Home() {
                   Token Gallery
                 </Link>
                 <Link 
+                  href="/data-marketplace"
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 text-sm font-medium"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  Buy Data
+                </Link>
+                <Link 
+                  href="/my-purchases"
+                  className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors flex items-center gap-2 text-sm font-medium"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  My Purchases
+                </Link>
+                <Link 
+                  href="/seller-dashboard"
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm font-medium"
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  Sell Data
+                </Link>
+                <Link 
                   href="/tokenized-data"
                   className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2 text-sm font-medium"
                 >
                   <Database className="w-4 h-4" />
                   Tokenize Data
                 </Link>
+                <WalletSelector />
                 <NetworkSelector />
                 <ThemeToggle />
               </div>
