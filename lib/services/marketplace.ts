@@ -57,25 +57,32 @@ class MarketplaceService {
 
       // Convert minted NFTs to marketplace listings
       nfts.forEach((nft: any) => {
+        // Check if already exists by token ID
         const existingListing = this.listings.find(
-          (l) => l.dataHash === nft.metadata?.dataHash
+          (l) => l.id === `tokenized_${nft.tokenId}_${nft.serialNumber}`
         );
 
         if (!existingListing && nft.metadata) {
+          // Extract name from fileName or use default
+          const fileName = nft.metadata.fileName || `dataset_${Date.now()}`;
+          const fileNameWithoutExt = fileName.replace(/\.csv$/i, '');
+          
+          // Create listing with available metadata
           const listing: DataListing = {
             id: `tokenized_${nft.tokenId}_${nft.serialNumber}`,
-            name: nft.metadata.name || `Dataset ${nft.serialNumber}`,
-            description: nft.metadata.description || 'Tokenized CSV Dataset',
-            price: nft.metadata.price || 2.5,
-            rows: nft.metadata.rows || 1000,
-            categories: nft.metadata.categories || ['CSV', 'Tokenized'],
+            name: fileNameWithoutExt,
+            description: `Tokenized CSV dataset with ${nft.metadata.rowCount || nft.metadata.summary?.totalRows || 'unknown'} rows`,
+            price: 2.5, // Default price, can be updated later
+            rows: nft.metadata.rowCount || nft.metadata.summary?.totalRows || 0,
+            categories: ['CSV', 'Tokenized Data'],
             seller: treasuryAccount,
             timestamp: nft.timestamp || new Date().toISOString(),
-            dataHash: nft.metadata.dataHash || `${nft.tokenId}-${nft.serialNumber}`,
+            dataHash: nft.metadata.hash || `${nft.tokenId}-${nft.serialNumber}`,
             rating: 5,
             purchases: 0,
           };
 
+          console.log('Adding tokenized listing:', listing);
           this.listings.push(listing);
         }
       });
@@ -160,6 +167,8 @@ class MarketplaceService {
    * Get listing by ID
    */
   getListingById(id: string): DataListing | undefined {
+    // Ensure listings are synced
+    this.syncTokenizedData();
     return this.listings.find((listing) => listing.id === id);
   }
 

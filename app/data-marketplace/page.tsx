@@ -382,23 +382,20 @@ export default function DataMarketplacePage() {
       {/* Footer Navigation */}
       <div className="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
         <div className="max-w-6xl mx-auto px-4 py-6 flex gap-4 flex-wrap">
-          <Link
-            href="/"
-            className="text-blue-600 hover:underline dark:text-blue-400"
-          >
-            ← Back to Home
+          <Link href="/" className="text-blue-600 hover:underline dark:text-blue-400">
+            ← Home
           </Link>
-          <Link
-            href="/token-gallery"
-            className="text-blue-600 hover:underline dark:text-blue-400"
-          >
-            Token Gallery →
+          <Link href="/token-gallery" className="text-blue-600 hover:underline dark:text-blue-400">
+            Token Gallery
           </Link>
-          <Link
-            href="/tokenized-data"
-            className="text-blue-600 hover:underline dark:text-blue-400"
-          >
-            Tokenize Data →
+          <Link href="/tokenized-data" className="text-blue-600 hover:underline dark:text-blue-400">
+            Tokenize Data
+          </Link>
+          <Link href="/my-purchases" className="text-blue-600 hover:underline dark:text-blue-400">
+            My Purchases
+          </Link>
+          <Link href="/seller-dashboard" className="text-blue-600 hover:underline dark:text-blue-400">
+            Seller Dashboard
           </Link>
         </div>
       </div>
