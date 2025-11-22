@@ -79,11 +79,16 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       );
 
       // Initialize the instance
-      await hc.init();
+      try {
+        await hc.init();
+      } catch (initError) {
+        console.warn('HashConnect init warning (non-fatal):', initError);
+        // Continue anyway - some errors are non-fatal
+      }
 
       setHashConnect(hc);
 
-      // Set up event listeners
+      // Set up event listeners with error handling
       hc.pairingEvent.on((data: any) => {
         console.log('HashPack pairing event received:', data);
         handleHashPackPairing(data);
@@ -96,8 +101,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
       console.log('HashConnect initialized successfully');
     } catch (error) {
-      console.error('Error initializing HashConnect:', error);
-      toast.error('Failed to initialize wallet connection');
+      console.warn('Error initializing HashConnect (non-fatal):', error);
+      // Don't show toast - HashPack optional, user can still use MetaMask
     }
   };
 

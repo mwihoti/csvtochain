@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Upload, CheckCircle, AlertCircle, Loader2, FileText, ExternalLink, Hash } from 'lucide-react';
 import { CSVProcessor, CSVValidationResult, CSVMetadata } from '@/lib/services/csv-processor';
+import { useWallet } from '@/lib/contexts/WalletContext';
 import toast from 'react-hot-toast';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function CSVTokenizer({ onTokenMinted }: Props) {
+  const { isConnected, accountId } = useWallet();
   const [file, setFile] = useState<File | null>(null);
   const [validation, setValidation] = useState<CSVValidationResult | null>(null);
   const [metadata, setMetadata] = useState<CSVMetadata | null>(null);
@@ -55,46 +57,65 @@ export default function CSVTokenizer({ onTokenMinted }: Props) {
   const handleMintNFT = async () => {
     if (!metadata) return;
 
+    // Check if wallet is connected
+    if (!isConnected || !accountId) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+
     setMinting(true);
     try {
       toast.loading('Minting dataset NFT on Hedera...', { id: 'minting' });
 
-      // Call API route to mint token
+      // Call the simple minting API
       const response = await fetch('/api/mint-dataset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ metadata })
+        body: JSON.stringify({
+          metadata,
+          ownerAccountId: accountId,
+        }),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to mint token');
+        throw new Error(error.error || 'Failed to mint dataset');
       }
 
       const result = await response.json();
       setMintResult(result);
-      
+
       // Save to localStorage for gallery
       const nftRecord = {
         tokenId: result.tokenId,
         serialNumber: result.serialNumber,
         metadata: metadata,
         timestamp: new Date().toISOString(),
-        explorerUrl: result.explorerUrl
+        explorerUrl: result.explorerUrl,
+        ownerAccountId: accountId,
+        transactionId: result.transactionId,
       };
-      
+
       const existing = localStorage.getItem('minted-nfts');
       const nfts = existing ? JSON.parse(existing) : [];
-      nfts.unshift(nftRecord); // Add to beginning
+      nfts.unshift(nftRecord);
       localStorage.setItem('minted-nfts', JSON.stringify(nfts));
-      
-      toast.success('Dataset NFT minted successfully!', { id: 'minting' });
-      
+
+      toast.success('Dataset NFT minted successfully! 🎉', { id: 'minting' });
+
       if (onTokenMinted) {
         onTokenMinted(result);
       }
     } catch (error: any) {
-      toast.error(`Minting failed: ${error.message}`, { id: 'minting' });
+      console.error('Minting error:', error);
+      
+      if (error.message.includes('rejected')) {
+        toast.error('Transaction rejected by user', { id: 'minting' });
+      } else if (error.message.includes('INVALID_SIGNATURE')) {
+        toast.error('Signature verification failed. Please try again.', { id: 'minting' });
+      } else {
+        toast.error(`Minting failed: ${error.message}`, { id: 'minting' });
+      }
     } finally {
       setMinting(false);
     }
@@ -292,13 +313,19 @@ export default function CSVTokenizer({ onTokenMinted }: Props) {
       {validation?.isValid && metadata && !mintResult && (
         <button
           onClick={handleMintNFT}
-          disabled={minting}
+          disabled={minting || !isConnected}
+          title={!isConnected ? 'Please connect your wallet first' : ''}
           className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-semibold transition-colors"
         >
           {minting ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
               Minting Dataset NFT on Hedera...
+            </>
+          ) : !isConnected ? (
+            <>
+              <AlertCircle className="w-5 h-5" />
+              Connect Wallet to Mint
             </>
           ) : (
             <>

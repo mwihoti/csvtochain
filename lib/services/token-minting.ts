@@ -182,8 +182,11 @@ export class TokenMintingService {
    * @param metadata - CSV metadata from csv-processor
    * @returns Mint result with token info and explorer link
    */
-  async mintDatasetNFT(metadata: CSVMetadata): Promise<TokenMintResult> {
+  async mintDatasetNFT(metadata: CSVMetadata, ownerAccountId?: string): Promise<TokenMintResult> {
     console.log(`🔨 Minting NFT for dataset: ${metadata.fileName}`);
+    if (ownerAccountId) {
+      console.log(`   Owner: ${ownerAccountId}`);
+    }
 
     try {
       // Ensure collection exists

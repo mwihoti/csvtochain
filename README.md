@@ -10,6 +10,8 @@
 
 CSVToChain is the first CSV-to-NFT tokenization platform built on Hedera Hashgraph, solving the fundamental problem of data authenticity and ownership in the digital age. The platform transforms ordinary CSV files into verifiable, tradeable blockchain assets with immutable proof of integrity, NFT-based ownership with clear provenance, and a built-in marketplace for monetizing datasets. Users can upload CSV files, validate data quality, mint NFTs representing their datasets, browse a decentralized marketplace, and purchase tokenized data using their Hedera wallets—all in under 60 seconds with military-grade cryptographic verification.
 
+Demo Video link: https://youtu.be/h3_Vm9uZ-4o
+
 ### Hackathon Track
 
 **DeFi & Tokenization**
@@ -244,7 +246,7 @@ csvtochain/
 - Fractional dataset ownership (ERC-1155)
 - Advanced search with AI/ML filtering
 - Royalty system for creators
-- Dataset versioning & updates
+
 
 ### Phase 3: Monetization
 - Built-in payment streaming (HTS token distribution)

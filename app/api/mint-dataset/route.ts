@@ -25,7 +25,7 @@ import { CSVMetadata } from '@/lib/services/csv-processor';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { metadata } = body as { metadata: CSVMetadata };
+    const { metadata, ownerAccountId } = body as { metadata: CSVMetadata; ownerAccountId?: string };
 
     if (!metadata) {
       return NextResponse.json(
@@ -34,7 +34,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate environment variables
+    if (!ownerAccountId) {
+      return NextResponse.json(
+        { error: 'Missing ownerAccountId - wallet not connected' },
+        { status: 400 }
+      );
+    }
+
+    // Validate environment variables (for transaction signing only)
     const accountId = process.env.HEDERA_ACCOUNT_ID;
     const privateKey = process.env.HEDERA_PRIVATE_KEY;
     const network = (process.env.HEDERA_NETWORK || 'testnet') as 'testnet' | 'mainnet' | 'previewnet';
@@ -53,8 +60,9 @@ export async function POST(request: NextRequest) {
     console.log(`   File: ${metadata.fileName}`);
     console.log(`   Rows: ${metadata.rowCount}`);
     console.log(`   Hash: ${metadata.hash.substring(0, 16)}...`);
+    console.log(`   Owner: ${ownerAccountId}`);
 
-    // Initialize minting service
+    // Initialize minting service with env credentials (for signing)
     const mintingService = new TokenMintingService(
       accountId,
       privateKey,
@@ -78,10 +86,10 @@ export async function POST(request: NextRequest) {
       console.log('ℹ️ HCS_TOPIC_ID not set, skipping consensus submission');
     }
 
-    // Mint NFT on Hedera Token Service
-    console.log('🔨 Minting NFT...');
-    const mintResult = await mintingService.mintDatasetNFT(metadata);
-    console.log(`✅ NFT minted successfully!`);
+    // Mint NFT on Hedera Token Service with owner as the user's wallet
+    console.log('🔨 Minting NFT as user...');
+    const mintResult = await mintingService.mintDatasetNFT(metadata, ownerAccountId);
+    console.log(`✅ NFT minted successfully to ${ownerAccountId}!`);
 
     // Close client
     mintingService.close();
@@ -90,6 +98,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       ...mintResult,
+      ownerAccountId,
       hcsTimestamp: hcsResult?.consensusTimestamp,
       hcsSequenceNumber: hcsResult?.sequenceNumber,
       metadata: {

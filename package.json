@@ -7,7 +7,10 @@
     "build": "next build --webpack",
     "start": "next start",
     "test:connection": "node scripts/test-connection.mjs",
+    "diagnose": "node scripts/diagnose-account.mjs",
+    "verify": "node scripts/verify-minting.mjs",
     "create:topic": "node scripts/create-hcs-topic.mjs",
+    "create:token": "node scripts/create-dataset-token.mjs",
     "deploy:contract": "node scripts/deploy-contract.mjs"
   },
   "dependencies": {
@@ -30,6 +33,7 @@
     "@types/papaparse": "^5.3.16",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "puppeteer": "^24.31.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSVToChain - Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Title Slide */
+        .slide-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-1 h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .slide-1 .subtitle {
+            font-size: 32px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .slide-1 .tagline {
+            font-size: 18px;
+            margin-bottom: 60px;
+            opacity: 0.8;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .slide-1 .badges {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Content Slides */
+        .slide-2, .slide-3, .slide-4, .slide-5, .slide-6, .slide-7, .slide-8, .slide-9, .slide-10 {
+            background: white;
+            color: #333;
+        }
+
+        .slide h2 {
+            font-size: 48px;
+            margin-bottom: 40px;
+            color: #667eea;
+            width: 100%;
+            text-align: left;
+        }
+
+        .slide h3 {
+            font-size: 28px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .content-grid.three {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .feature-list {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .feature-list li {
+            list-style: none;
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .stat-box {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .stat-box .number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-box .label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .timeline {
+            width: 100%;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .timeline-item {
+            padding-left: 50px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 2px #667eea;
+        }
+
+        .timeline-item .time {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .timeline-item .description {
+            margin-top: 5px;
+            color: #666;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .two-col h3 {
+            grid-column: 1 / -1;
+        }
+
+        /* Tech Stack */
+        .tech-category {
+            margin-bottom: 25px;
+        }
+
+        .tech-category h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tag {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        /* CTA Slide */
+        .slide-10 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-10 h2 {
+            color: white;
+            font-size: 56px;
+            text-align: center;
+        }
+
+        .cta-content {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-content p {
+            font-size: 18px;
+            margin: 15px 0;
+            opacity: 0.9;
+        }
+
+        .links {
+            margin-top: 40px;
+            font-size: 16px;
+        }
+
+        .links p {
+            margin: 10px 0;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .slide {
+                page-break-after: always;
+                box-shadow: none;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-size: 12px;
+            color: rgba(0,0,0,0.4);
+        }
+
+        /* Highlights */
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .value-prop {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .comparison-box {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .before {
+            background: #ffe5e5;
+            border: 2px solid #ff6b6b;
+        }
+
+        .after {
+            background: #e5f5ff;
+            border: 2px solid #667eea;
+        }
+
+        .before h4, .after h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .before h4 {
+            color: #ff6b6b;
+        }
+
+        .after h4 {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1: Title Slide -->
+<div class="slide slide-1">
+    <h1>CSVToChain</h1>
+    <div class="subtitle">📊⛓️ CSV-to-NFT Tokenization Platform</div>
+    <div class="tagline">Transform CSV data into verifiable, tradeable blockchain assets with immutable proof of integrity</div>
+    <div class="badges">
+        <div class="badge">🏆 DeFi & Tokenization</div>
+        <div class="badge">🔗 Hedera Hashgraph</div>
+        <div class="badge">⚡ Sub-60 Second Minting</div>
+        <div class="badge">🌐 Web3 Ready</div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 2: The Problem -->
+<div class="slide slide-2">
+    <h2>The Problem</h2>
+    <div class="comparison">
+        <div class="comparison-box before">
+            <h4>❌ Current State</h4>
+            <ul class="feature-list">
+                <li>CSV files easily tampered with</li>
+                <li>No ownership proof</li>
+                <li>Data authenticity unclear</li>
+                <li>No monetization path</li>
+                <li>Centralized storage risks</li>
+                <li>Difficult data licensing</li>
+            </ul>
+        </div>
+        <div class="comparison-box after">
+            <h4>✅ CSVToChain Solution</h4>
+            <ul class="feature-list">
+                <li>Immutable cryptographic proof</li>
+                <li>NFT-based ownership</li>
+                <li>Blockchain-verified authenticity</li>
+                <li>Built-in marketplace</li>
+                <li>Decentralized & transparent</li>
+                <li>Instant tokenization</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 3: Solution Overview -->
+<div class="slide slide-3">
+    <h2>Our Solution</h2>
+    <h3>The CSVToChain Platform</h3>
+    <div class="content-grid">
+        <div class="card">
+            <h4>📤 Upload & Validate</h4>
+            <p>Drag-and-drop CSV files with real-time validation and quality scoring. Automatic structure verification.</p>
+        </div>
+        <div class="card">
+            <h4>🔐 Cryptographic Hashing</h4>
+            <p>SHA-256 immutable fingerprints. Military-grade proof of data integrity stored on-chain.</p>
+        </div>
+        <div class="card">
+            <h4>🪙 NFT Minting</h4>
+            <p>One-click minting on Hedera Token Service. Instant NFT representing your dataset ownership.</p>
+        </div>
+        <div class="card">
+            <h4>🏪 Marketplace</h4>
+            <p>Instant listing. Browse, purchase, and manage tokenized datasets. Real-time pricing in HBAR.</p>
+        </div>
+        <div class="card">
+            <h4>✅ Dual Verification</h4>
+            <p>HTS for ownership + HCS for immutability. Double-layer blockchain assurance.</p>
+        </div>
+        <div class="card">
+            <h4>📊 Analytics</h4>
+            <p>Real-time transaction tracking. Account explorer with AI categorization and CSV export.</p>
+        </div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 4: Key Features -->
+<div class="slide slide-4">
+    <h2>Key Features</h2>
+    <div class="two-col">
+        <div>
+            <h3>Core Features</h3>
+            <ul class="feature-list">
+                <li>Instant CSV-to-NFT conversion</li>
+                <li>Real Hedera blockchain integration</li>
+                <li>MetaMask & HashPack wallets</li>
+                <li>Sub-60 second transaction time</li>
+                <li>Multi-network support (Mainnet/Testnet/Previewnet)</li>
+                <li>Dark mode & responsive UI</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Advanced Features</h3>
+            <ul class="feature-list">
+                <li>Data Marketplace for buying/selling</li>
+                <li>AI-powered transaction categorization</li>
+                <li>HashScan integration for verification</li>
+                <li>Account explorer dashboard</li>
+                <li>CSV export functionality</li>
+                <li>Purchase history tracking</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 5: Tech Stack -->
+<div class="slide slide-5">
+    <h2>Technology Stack</h2>
+    <div class="content-grid three">
+        <div>
+            <div class="tech-category">
+                <h4>🎨 Frontend</h4>
+                <div class="tech-list">
+                    <span class="tech-tag">Next.js 16</span>
+                    <span class="tech-tag">React 19</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Tailwind CSS</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>🔗 Blockchain</h4>
+                <div class="tech-list">
+                    <span class="tech-tag">Hedera SDK</span>
+                    <span class="tech-tag">HTS (NFTs)</span>
+                    <span class="tech-tag">HCS (Consensus)</span>
+                    <span class="tech-tag">Mirror Node API</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="tech-category">
+                <h4>💼 Backend</h4>
+                <div class="tech-list">
+                    <span class="tech-tag">Next.js API Routes</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">SHA-256 Hashing</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>🛡️ Security</h4>
+                <div class="tech-list">
+                    <span class="tech-tag">MetaMask Signing</span>
+                    <span class="tech-tag">HashPack Wallet</span>
+                    <span class="tech-tag">Crypto Operations</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="tech-category">
+                <h4>🚀 Deployment</h4>
+                <div class="tech-list">
+                    <span class="tech-tag">Vercel Ready</span>
+                    <span class="tech-tag">Docker Support</span>
+                    <span class="tech-tag">pnpm</span>
+                    <span class="tech-tag">ESLint & Prettier</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h4>📊 Data</h4>
+                <div class="tech-list">
+                    <span class="tech-tag">localStorage</span>
+                    <span class="tech-tag">CoinGecko API</span>
+                    <span class="tech-tag">CSV Parser</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 6: Market & Business Model -->
+<div class="slide slide-6">
+    <h2>Market Opportunity & Business Model</h2>
+    <div class="stats">
+        <div class="stat-box">
+            <div class="number">$2.3T</div>
+            <div class="label">Data Economy Size</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">60 sec</div>
+            <div class="label">Time to Monetize</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">∞</div>
+            <div class="label">Use Cases</div>
+        </div>
+    </div>
+    <h3 style="margin-top: 40px;">Revenue Streams</h3>
+    <div class="feature-list" style="margin-top: 20px;">
+        <li style="margin-bottom: 15px;"><strong>Marketplace Fees</strong> - 2-5% on dataset transactions</li>
+        <li style="margin-bottom: 15px;"><strong>Premium Features</strong> - Advanced analytics, bulk minting, API access</li>
+        <li style="margin-bottom: 15px;"><strong>Enterprise Licensing</strong> - White-label solutions for organizations</li>
+        <li style="margin-bottom: 15px;"><strong>Verification Services</strong> - Certified data authenticity badges</li>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 7: Competitive Advantage -->
+<div class="slide slide-7">
+    <h2>Competitive Advantage</h2>
+    <div class="value-prop">
+        <h3>Why CSVToChain Wins</h3>
+        <ul class="feature-list" style="margin-top: 15px;">
+            <li><strong>Speed:</strong> Minting in under 60 seconds - fastest in market</li>
+            <li><strong>Cost Efficiency:</strong> Hedera's low fees (cents, not dollars)</li>
+            <li><strong>Dual Layer Security:</strong> HTS + HCS for maximum confidence</li>
+            <li><strong>User-Friendly:</strong> No blockchain knowledge required</li>
+            <li><strong>Real Ownership:</strong> NFTs transferred to user wallets immediately</li>
+            <li><strong>Multi-Network:</strong> Mainnet, Testnet, Previewnet support</li>
+            <li><strong>Integrated Marketplace:</strong> Built-in buyer ecosystem</li>
+        </ul>
+    </div>
+    <h3>Target Users</h3>
+    <div class="content-grid">
+        <div class="card">
+            <h4>📊 Data Scientists</h4>
+            <p>Monetize research datasets and sell to enterprises</p>
+        </div>
+        <div class="card">
+            <h4>🏢 Enterprises</h4>
+            <p>Verify supplier data integrity and manage supply chains</p>
+        </div>
+        <div class="card">
+            <h4>📈 Analysts</h4>
+            <p>Purchase verified datasets for insights and research</p>
+        </div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 8: Product Roadmap -->
+<div class="slide slide-8">
+    <h2>Product Roadmap</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="time">Phase 1 - Now (Launch)</div>
+            <div class="description">Core CSV-to-NFT minting, marketplace, MetaMask/HashPack wallets</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">Phase 2 - Q4 2025</div>
+            <div class="description">API marketplace, batch minting, enterprise authentication</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">Phase 3 - Q1 2026</div>
+            <div class="description">Advanced analytics dashboard, data watermarking, usage rights management</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">Phase 4 - Q2 2026</div>
+            <div class="description">Multi-chain support (Ethereum, Polygon), institutional features</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">Phase 5 - H2 2026</div>
+            <div class="description">AI-powered data insights, fractional ownership, DAO governance</div>
+        </div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 9: Metrics & Traction -->
+<div class="slide slide-9">
+    <h2>Metrics & Traction</h2>
+    <div class="stats">
+        <div class="stat-box">
+            <div class="number">0s</div>
+            <div class="label">Setup Time</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">100%</div>
+            <div class="label">Data Verification</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">$0.01</div>
+            <div class="label">Avg Mint Cost</div>
+        </div>
+    </div>
+    <h3 style="margin-top: 40px;">Development Status</h3>
+    <ul class="feature-list">
+        <li>✅ Smart contract deployed and tested</li>
+        <li>✅ Real Hedera integration live</li>
+        <li>✅ Marketplace fully functional</li>
+        <li>✅ Multi-wallet support operational</li>
+        <li>✅ Production-ready codebase (TypeScript + ESLint)</li>
+        <li>🚀 Ready for mainnet deployment</li>
+    </ul>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+<!-- Slide 10: Call to Action -->
+<div class="slide slide-10">
+    <h2>Join the Data Revolution</h2>
+    <div class="cta-content">
+        <p>Transform CSV data into valuable blockchain assets</p>
+        <p>Monetize. Verify. Trade. On Hedera.</p>
+        <div class="links">
+            <p>🌐 <strong>Website:</strong> https://csvtochain.vercel.app</p>
+            <p>💻 <strong>GitHub:</strong> https://github.com/mwihoti/csvtochain</p>
+            <p>📧 <strong>Contact:</strong> hello@csvtochain.app</p>
+        </div>
+        <div style="margin-top: 50px; font-size: 24px; font-weight: bold;">Let's tokenize the world's data</div>
+    </div>
+    <div class="footer">CSVToChain Pitch Deck | November 2025</div>
+</div>
+
+</body>
+</html>
